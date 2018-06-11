@@ -23,7 +23,6 @@ export default (opt: HelloMiddlewareInfo, app: Application) => {
     }
     ctx.body += 'hello middleware\n'
     ctx.set('x-middleware', 'hello')
-    console.log('hello middleware')
     await next()
   }
 }
