@@ -16,15 +16,44 @@ const createRule = {
 
 class TopicController extends Controller {
   // get
-  async show() {
+  public async index() {
     const { ctx } = this
 
-    ctx.body = await ctx.service.topoics.show({
-      
+    ctx.validate({
+      page: {
+        type: 'string',
+        format: /\d+/,
+        required: false
+      },
+      tab: {
+        type: 'enum',
+        values: ['ask', 'share', 'job', 'good'],
+        required: false
+      },
+      limit: {
+        typs: 'string',
+        format: /\d+/,
+        required: false
+      }
+    }, ctx.query)
+    ctx.body = await ctx.service.topics.list({
+      page: ctx.query.page,
+      tab: ctx.query.tab,
+      limit: ctx.query.limit,
+      mdrender: ctx.query.mdrender !== 'false'
+    })
+  }
+  public async show() {
+    const { ctx } = this
+
+    ctx.body = await ctx.service.topics.show({
+      id: ctx.params.id,
+      mdrender: ctx.query.mdrender !== 'false',
+      accesstoken: ctx.query.accesstoken || ''
     })
   }
   // posts
-  async create() {
+  public async create() {
     const { ctx } = this
     ctx.vaildate(createRule)
 
@@ -33,6 +62,17 @@ class TopicController extends Controller {
       topic_id: id
     }
     ctx.status = 201
+  }
+  public async update() {
+    const { ctx } = this
+    const id = ctx.params.id
+
+    ctx.validate(createRule)
+    await ctx.service.topics.update(Object.assign(
+      { id },
+      ctx.request.body
+    ))
+    ctx.status = 204
   }
 }
 export default TopicController
