@@ -10,10 +10,10 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-validate'
   },
-  mysql: {
-    enable: true,
-    package: 'egg-mysql'
-  }
+  // mysql: {
+  //   enable: true,
+  //   package: 'egg-mysql'
+  // }
 };
 // export const mysql = {
 //   enable: true,
