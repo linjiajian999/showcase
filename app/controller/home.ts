@@ -13,9 +13,9 @@ export default class HomeController extends Controller {
   public async login() {
     const {
       ctx,
-      config
+      // config
     } = this
-    console.log(config.middleware)
+    // console.log(config.middleware)
 
     const loginForm  = ctx.query as LoginForm
     ctx.body = {
@@ -24,5 +24,7 @@ export default class HomeController extends Controller {
       name: loginForm.username,
       password: loginForm.password
     }
+    ctx.body += '\n'
+    ctx.body += JSON.stringify(this, null, 4)
   }
 }

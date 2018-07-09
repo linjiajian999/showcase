@@ -13,15 +13,15 @@ export interface HelloMiddleWare {
 }
 
 export default (opt: HelloMiddlewareInfo, app: Application) => {
-  console.log(opt)
-  console.log(opt.name)
-  console.log(opt.type)
-  console.log(app)
   return async (ctx: Context, next: any) => {
     if (!ctx.body) {
       ctx.body = ''
     }
     ctx.body += 'hello middleware\n'
+    ctx.body += JSON.stringify(opt, null, 4)
+    ctx.body += '\n'
+    ctx.body += JSON.stringify(app, null, 4)
+    ctx.body += '\n'
     ctx.set('x-middleware', 'hello')
     await next()
   }

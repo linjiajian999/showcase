@@ -16,7 +16,7 @@ const createRule = {
 
 class TopicController extends Controller {
   // get
-  public async index() {
+  async index() {
     const { ctx } = this
 
     ctx.validate({
@@ -43,7 +43,7 @@ class TopicController extends Controller {
       mdrender: ctx.query.mdrender !== 'false'
     })
   }
-  public async show() {
+  async show() {
     const { ctx } = this
 
     ctx.body = await ctx.service.topics.show({
@@ -53,17 +53,19 @@ class TopicController extends Controller {
     })
   }
   // posts
-  public async create() {
+  async create() {
     const { ctx } = this
-    ctx.vaildate(createRule)
-
-    const id = await ctx.service.topics.create(ctx.request.body)
-    ctx.body = {
-      topic_id: id
-    }
+    ctx.body = this.app
     ctx.status = 201
+    // ctx.vaildate(createRule)
+    // // console.log(this.vaildate)
+    // const id = await ctx.service.topics.create(ctx.request.body)
+    // ctx.body = {
+    //   topic_id: id
+    // }
+    // ctx.status = 201
   }
-  public async update() {
+  async update() {
     const { ctx } = this
     const id = ctx.params.id
 
@@ -74,5 +76,6 @@ class TopicController extends Controller {
     ))
     ctx.status = 204
   }
+
 }
 export default TopicController

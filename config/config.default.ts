@@ -34,6 +34,15 @@ export default (appInfo: EggAppConfig) => {
     info: 'hello middleware',
     type: 'string'
   }
-
+  config.mysql = {
+    client: {
+      host: 'localhost',
+      port: '3306',
+      user: 'root',
+      password: 'abc123',
+      database: 'test',
+    },
+    app: true,
+  }
   return config;
 };

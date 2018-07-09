@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>test</title>
+</head>
+<body>
+  <div id="app">
+    <div @click="request">request</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script src="https://unpkg.com/axios@0.18.0/dist/axios.js"></script>
+  <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    axios.interceptors.request.use(
+      (config) => {
+        if (!csrfSafeMethod(config.method)) {
+          console.log(config.headers)
+          config.headers['x-csrf-token'] = Cookies.get('csrfToken')
+        }
+        return config
+      },
+      (err) => {
+        console.log(err)
+        return Promise.reject(err)
+      }
+    )
+    const app = new Vue({
+      el: '#app',
+      name: 'app',
+      methods: {
+        request() {
+          axios.post('/api/v2/topics')
+          .then(res => {
+            const data = res.data
+            console.log(data)
+          })
+          .catch(err => {
+            console.log(err)
+            if (err.response) {
+              const data = err.response.data
+              console.log(data)
+              alert(data.message)
+            } else if (err.message) {
+              alert(err.message)
+            }
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

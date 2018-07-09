@@ -9,7 +9,14 @@ const plugin: EggPlugin = {
   validate: {
     enable: true,
     package: 'egg-validate'
+  },
+  mysql: {
+    enable: true,
+    package: 'egg-mysql'
   }
 };
-
+// export const mysql = {
+//   enable: true,
+//   package: 'egg-mysql'
+// }
 export default plugin;
