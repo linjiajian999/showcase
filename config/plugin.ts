@@ -1,7 +1,7 @@
 import { EggPlugin } from 'egg';
-
+// import 'egg-validate'
 const plugin: EggPlugin = {
-  // static: true,
+  static: true,
   // nunjucks: {
   //   enable: true,
   //   package: 'egg-view-nunjucks',
@@ -10,13 +10,9 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-validate'
   },
-  // mysql: {
-  //   enable: true,
-  //   package: 'egg-mysql'
-  // }
+  mysql: {
+    enable: true,
+    package: 'egg-mysql'
+  }
 };
-// export const mysql = {
-//   enable: true,
-//   package: 'egg-mysql'
-// }
 export default plugin;

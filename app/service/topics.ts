@@ -48,7 +48,7 @@ class TopicsService extends Service {
   }
   // post
   async create(params: any) {
-    const res = await  this.request('/topics', {
+    const res = await this.request('/topics', {
       method: 'post',
       data: params,
       contentType: 'json'

@@ -12,11 +12,9 @@ export type DefaultConfig = PowerPartial<EggAppConfig & BizConfig>;
 export interface BizConfig {
   sourceUrl: string;
 }
-export type TheMiddleware = HelloMiddleWare
 
 export default (appInfo: EggAppConfig) => {
-  const config =
-    {} as PowerPartial<EggAppConfig> & BizConfig & TheMiddleware;
+  const config = {} as PowerPartial<EggAppConfig> & BizConfig & HelloMiddleWare;
 
   // app special config
   config.sourceUrl = `https://github.com/eggjs/examples/tree/master/${appInfo.name}`;
@@ -40,9 +38,9 @@ export default (appInfo: EggAppConfig) => {
       port: '3306',
       user: 'root',
       password: 'abc123',
-      database: 'test',
+      database: 'test'
     },
-    app: true,
+    app: true
   }
   return config;
 };
