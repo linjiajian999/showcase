@@ -18,30 +18,33 @@ class TopicController extends Controller {
   // get
   async index() {
     const { ctx } = this
-
-    ctx.validate({
-      page: {
-        type: 'string',
-        format: /\d+/,
-        required: false
-      },
-      tab: {
-        type: 'enum',
-        values: ['ask', 'share', 'job', 'good'],
-        required: false
-      },
-      limit: {
-        typs: 'string',
-        format: /\d+/,
-        required: false
-      }
-    }, ctx.query)
-    ctx.body = await ctx.service.topics.list({
-      page: ctx.query.page,
-      tab: ctx.query.tab,
-      limit: ctx.query.limit,
-      mdrender: ctx.query.mdrender !== 'false'
-    })
+    try {
+      ctx.validate({
+        page: {
+          type: 'string',
+          format: /\d+/,
+          required: false
+        },
+        tab: {
+          type: 'enum',
+          values: ['ask', 'share', 'job', 'good'],
+          required: false
+        },
+        limit: {
+          typs: 'string',
+          format: /\d+/,
+          required: false
+        }
+      }, ctx.query)
+      ctx.body = await ctx.service.topics.list({
+        page: ctx.query.page,
+        tab: ctx.query.tab,
+        limit: ctx.query.limit,
+        mdrender: ctx.query.mdrender !== 'false'
+      })
+    } catch (err) {
+      ctx.body = err
+    }
   }
   async show() {
     const { ctx } = this
@@ -55,13 +58,8 @@ class TopicController extends Controller {
   // posts
   async create() {
     const { ctx } = this
-    ctx.body = this.app
-    ctx.body += '\n'
-    ctx.body += JSON.stringify(ctx.validate, null, 4)
 
-    ctx.status = 201
     ctx.validate(createRule)
-    // console.log(this.validate)
     const id = await ctx.service.topics.create(ctx.request.body)
     ctx.body = {
       topic_id: id
