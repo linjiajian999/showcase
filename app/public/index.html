@@ -9,6 +9,7 @@
 <body>
   <div id="app">
     <button @click="request">request</button>
+    <button @click="upload">upload</button>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <script src="https://unpkg.com/axios@0.18.0/dist/axios.js"></script>
@@ -51,6 +52,16 @@
               alert(err.message)
             }
           });
+        },
+        upload() {
+          axios.post('/api/upload')
+          .then(res => {
+            const data = res.data
+            console.log(data)
+          })
+          .catch(err => {
+            console.log(err)
+          })
         }
       }
     });

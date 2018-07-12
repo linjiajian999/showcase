@@ -24,7 +24,5 @@ export default class HomeController extends Controller {
       name: loginForm.username,
       password: loginForm.password
     }
-    ctx.body += '\n'
-    ctx.body += JSON.stringify(this, null, 4)
   }
 }
