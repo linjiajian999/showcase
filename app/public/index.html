@@ -10,6 +10,14 @@
   <div id="app">
     <button @click="request">request</button>
     <button @click="upload">upload</button>
+    <form ref="form">
+      <input
+        ref="input"
+        type="file"
+        name="Filedata"
+        accept="image/jpeg,image/gif,image/png,image/jpg"
+        @change="inputChange"/>
+    </form>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <script src="https://unpkg.com/axios@0.18.0/dist/axios.js"></script>
@@ -35,6 +43,11 @@
     const app = new Vue({
       el: '#app',
       name: 'app',
+      data() {
+        return {
+          isUploading: false
+        }
+      },
       methods: {
         request() {
           axios.post('/api/v2/topics')
@@ -53,13 +66,28 @@
             }
           });
         },
-        upload() {
-          axios.post('/api/upload')
+        inputChange() {
+          // 判断是否正在上传
+          if (this.isUploading) {
+            return
+          }
+          // 判断是否是清空触发的change
+          if (this.$refs.input.files.length === 0) {
+            return
+          }
+          this.upload(this.$refs.form, this.$refs.input)
+        },
+        upload(form) {
+          const formdata = new FormData(form)
+          this.isUploading = true
+          axios.post('/api/upload', formdata)
           .then(res => {
+            this.isUploading = false
             const data = res.data
             console.log(data)
           })
           .catch(err => {
+            this.isUploading = false
             console.log(err)
           })
         }
